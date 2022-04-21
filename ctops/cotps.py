@@ -8,6 +8,25 @@ from datetime import datetime
 
 password_text='Ideraoluwa@01'
 
+def element_float_validator(element_locator):
+    valid=False
+    while not valid:
+        try:
+            precheck=driver.find_element(By.XPATH, element_locator)
+            if (float(precheck.text)) >= 0:
+                valid = True
+                print('Wallet Balance:', precheck.text)
+
+        except ValueError:
+            pass
+    return precheck.text
+
+
+
+
+
+
+
 while True:
     driver=webdriver.Chrome(executable_path='C:/Users/miner/Documents/Python/chromedriver.exe')
     driver.get('https://cotps.com/#/pages/login/login?originSource=userCenter')
@@ -31,24 +50,26 @@ while True:
 
     element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, '/html/body/uni-app/uni-page/uni-page-wrapper/uni-page-body/uni-view/uni-view[3]/uni-view[1]/uni-view[2]')))
 
-    valid=False
-    while not valid:
-        try:
-            precheck=driver.find_element(By.XPATH, '/html/body/uni-app/uni-page/uni-page-wrapper/uni-page-body/uni-view/uni-view[3]/uni-view[1]/uni-view[2]')
-            print('In Transaction:', precheck.text)
-
-            wallet_balance=driver.find_element(By.XPATH, '/html/body/uni-app/uni-page/uni-page-wrapper/uni-page-body/uni-view/uni-view[3]/uni-view[2]/uni-view[2]')
-            print('Wallet Balance:', wallet_balance.text)
-            (float(precheck.text))
-        except ValueError:
-            pass
+    check=element_float_validator('/html/body/uni-app/uni-page/uni-page-wrapper/uni-page-body/uni-view/uni-view[3]/uni-view[2]/uni-view[2]')
+#    valid=False
+#    while not valid:
+#        try:
+#            precheck=driver.find_element(By.XPATH, '/html/body/uni-app/uni-page/uni-page-wrapper/uni-page-body/uni-view/uni-view[3]/uni-view[1]/uni-view[2]')
+#            wallet_balance=driver.find_element(By.XPATH, '/html/body/uni-app/uni-page/uni-page-wrapper/uni-page-body/uni-view/uni-view[3]/uni-view[2]/uni-view[2]')
+#            if (float(precheck.text)) >= 0:
+#                valid = True
+#                print('In Transaction:', precheck.text)
+#                print('Wallet Balance:', wallet_balance.text)
+#
+#        except ValueError:
+#            pass
             
 
     #f = open("cotps_session.txt", "a")
     #f.write(precheck.text)
     #f.close()
 
-    if float(precheck.text) == 0:
+    if float(check) == 0: #or float(wallet_balance.text) > 5:
         while float(wallet_balance.text) > 5:
 
             check_for_order=driver.find_element(By.CSS_SELECTOR, 'body > uni-app > uni-page > uni-page-wrapper > uni-page-body > uni-view > uni-view.grab-orders-wrap.grab-orders-wrap1 > uni-button')
@@ -60,11 +81,10 @@ while True:
             confirm_sale=driver.find_element(By.XPATH, '/html/body/uni-app/uni-page/uni-page-wrapper/uni-page-body/uni-view/uni-view[8]/uni-view/uni-view/uni-button')
             confirm_sale.click()
 
-            time.sleep(10)
+            check=element_float_validator('/html/body/uni-app/uni-page/uni-page-wrapper/uni-page-body/uni-view/uni-view[3]/uni-view[2]/uni-view[2]')
 
             wallet_balance=driver.find_element(By.XPATH, '/html/body/uni-app/uni-page/uni-page-wrapper/uni-page-body/uni-view/uni-view[8]/uni-view/uni-view/uni-button')
-            print ('New Wallet Balance is:',wallet_balance.text)
-
+            print (wallet_balance.text)
 
         print(datetime.now(),'Session Completed!')
         session_file = open("cotps_session.txt", "a")
