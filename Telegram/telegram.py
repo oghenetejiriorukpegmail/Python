@@ -5,7 +5,7 @@ import asyncio
 import configparser
 
 config = configparser.ConfigParser()
-config.read("config.ini")
+config.read("Telegram/config.ini")
 
 # Setting configuration values
 api_id = config['Telegram']['api_id']
@@ -21,4 +21,9 @@ username = config['Telegram']['username']
 client=TelegramClient(username,api_id,api_hash)
 client.start(phone)
 
-client.connect()
+async def main():
+    await client.get_messages()
+
+
+with client:
+    client.loop.run_until_complete(main())

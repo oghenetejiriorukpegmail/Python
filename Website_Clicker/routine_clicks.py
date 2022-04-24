@@ -35,7 +35,7 @@ config.read('Website_Clicker/config.ini')
 cryptostackers=config['Websites']['cryptostackers']
 #coinstats=config['Websites']['coinstats']
 
-driver=webdriver.Chrome(options=chrome_options)
+driver=webdriver.Chrome(executable_path='C:/Users/miner/Documents/Python/chromedriver.exe',options=chrome_options)
 driver.implicitly_wait(100)
 '''driver.get(coinstats)
 
