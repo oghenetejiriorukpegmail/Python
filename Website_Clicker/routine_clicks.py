@@ -6,15 +6,15 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 import time
-from datetime import datetime
 from configparser import ConfigParser
+from configparser import SafeConfigParser
 
 
 chrome_options = Options()
 chrome_options.add_argument("--disable-extensions")
 chrome_options.add_argument("--disable-gpu")
 #chrome_options.add_argument("--no-sandbox") # linux only
-#chrome_options.add_argument("--headless")
+chrome_options.add_argument("--headless")
 
 
 def clicker(element_locator):
@@ -29,27 +29,15 @@ def login(param,xpath):
     credential=driver.find_element(By.XPATH, xpath)
     credential.send_keys(param)
 
-config=ConfigParser()
-config.read('Website_Clicker/config.ini')
+config=SafeConfigParser()
+config.read('C:\\Users\\miner\\Documents\\Python\\Website_Clicker\\config.ini')
 #print(config.sections())
 cryptostackers=config['Websites']['cryptostackers']
 #coinstats=config['Websites']['coinstats']
 
 driver=webdriver.Chrome(executable_path='C:/Users/miner/Documents/Python/chromedriver.exe',options=chrome_options)
 driver.implicitly_wait(100)
-'''driver.get(coinstats)
 
-clicker('//*[@id="__next"]/main/header/div/div[2]/div[3]/a[1]')
-login(config['Credentials']['username'],'//*[@id="__next"]/main/div[2]/div/form/div[1]/div[1]/div/input')
-login(config['Credentials']['password'],'//*[@id="__next"]/main/div[2]/div/form/div[1]/div[2]/div/input')
-time.sleep(1)
-clicker('//*[@id="__next"]/main/div[2]/div/form/div[2]/button')
-time.sleep(5)
-
-driver.close()
-
-time.sleep(10)
-'''
 driver.get(cryptostackers)
 
 clicker('/html/body/div[1]/div/div/div/div[2]/div/div[1]/div[1]/div/div[1]/div[4]/div/button')
@@ -61,12 +49,9 @@ login(config['Credentials']['password'],'/html/body/div[1]/div/div/div/div[2]/di
 time.sleep(1)
 
 clicker('/html/body/div[1]/div/div/div/div[2]/div/div[1]/div[1]/div/div[2]/div[1]/div/div[2]/div[1]/div/div/div/div/div/div[4]/div/button')
-clicker('//*[@id="confetti"]')
-
-#time.sleep(10)
+clicker('/html/body/div[1]/div[1]/div[1]/div[1]/div[2]/div/div/div[2]/div/div[2]/div[1]/div[1]/div/div/div[2]/button')
 
 driver.close()
-
 
 
 
