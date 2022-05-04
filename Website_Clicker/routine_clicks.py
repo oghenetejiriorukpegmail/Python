@@ -7,14 +7,14 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 import time
 from configparser import ConfigParser
-from configparser import SafeConfigParser
+import sys
 
 
 chrome_options = Options()
 chrome_options.add_argument("--disable-extensions")
 chrome_options.add_argument("--disable-gpu")
 #chrome_options.add_argument("--no-sandbox") # linux only
-chrome_options.add_argument("--headless")
+#chrome_options.add_argument("--headless")
 
 
 def clicker(element_locator):
@@ -29,7 +29,7 @@ def login(param,xpath):
     credential=driver.find_element(By.XPATH, xpath)
     credential.send_keys(param)
 
-config=SafeConfigParser()
+config=ConfigParser()
 config.read('C:\\Users\\miner\\Documents\\Python\\Website_Clicker\\config.ini')
 #print(config.sections())
 cryptostackers=config['Websites']['cryptostackers']
@@ -51,10 +51,11 @@ time.sleep(1)
 clicker('/html/body/div[1]/div/div/div/div[2]/div/div[1]/div[1]/div/div[2]/div[1]/div/div[2]/div[1]/div/div/div/div/div/div[4]/div/button')
 clicker('/html/body/div[1]/div[1]/div[1]/div[1]/div[2]/div/div/div[2]/div/div[2]/div[1]/div[1]/div/div/div[2]/button')
 
+time.sleep(5)
+
 driver.close()
 
-
-
+print('All Done!!!  Exiting...')
 
 
 '''

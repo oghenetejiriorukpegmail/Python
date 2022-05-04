@@ -1,4 +1,9 @@
+from email import message
+from pydoc import cli
 from telethon import TelegramClient
+from telethon import events
+from telethon.tl.functions.messages import GetHistoryRequest
+from telethon.tl.types import PeerChannel
 import os
 import time
 import asyncio
@@ -16,14 +21,29 @@ api_hash = str(api_hash)
 phone = config['Telegram']['phone']
 username = config['Telegram']['username']
 
-
-
-client=TelegramClient(username,api_id,api_hash)
-client.start(phone)
-
 async def main():
-    await client.get_messages()
+    client = TelegramClient('BINAREX_BOT', api_id, api_hash)
+    await client.start()
+    print(client.is_connected())
+#   channel_messages = client.iter_dialogs(limit=1,ignore_pinned='yes')
+    channel_username='cciephantom' # your channel
+    channel_entity=await client.get_entity('https://t.me/joinchat/3AZWEmp2NYM4Mzc6')
+    print (channel_entity)
+    posts = await client(GetHistoryRequest(
+        peer=channel_entity,
+        limit=1,
+        offset_date=None,
+        offset_id=0,
+        max_id=0,
+        min_id=0,
+        add_offset=0,
+        hash=0))
+    
+    print (posts.messages)
 
 
-with client:
-    client.loop.run_until_complete(main())
+
+    await client.run_until_disconnected()
+
+
+asyncio.run(main())

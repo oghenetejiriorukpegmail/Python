@@ -6,6 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 import time
 from datetime import datetime
+import os
 
 password_text='Ideraoluwa@01'
 
@@ -28,12 +29,19 @@ def element_float_validator(method,element_locator):
             pass
     return precheck.text
 
+def clicker(method,element):
+    if method=='xpath':
+        click=driver.find_element(By.XPATH,element)
+        click.click()
+    elif method=='css':
+        click=driver.find_element(By.CSS_SELECTOR,element)
+        click.click()
 
 chrome_options = Options()
 chrome_options.add_argument("--disable-extensions")
 chrome_options.add_argument("--disable-gpu")
 #chrome_options.add_argument("--no-sandbox") # linux only
-chrome_options.add_argument("--headless")
+#chrome_options.add_argument("--headless")
 
 driver=webdriver.Chrome(executable_path='C:/Users/miner/Documents/Python/chromedriver.exe',options=chrome_options)
 driver.get('https://cotps.com/#/pages/login/login?originSource=userCenter')
@@ -48,14 +56,12 @@ password.clear()
 password.send_keys(password_text)
 
 time.sleep(2)
+#Click Login Button
+clicker('xpath', '/html/body/uni-app/uni-page/uni-page-wrapper/uni-page-body/uni-view/uni-button')
+#Click Transaction Hall Button
+clicker('xpath', '/html/body/uni-app/uni-tabbar/div[1]/div[3]/div/div[2]')
 
-login=driver.find_element(By.XPATH, '/html/body/uni-app/uni-page/uni-page-wrapper/uni-page-body/uni-view/uni-button')
-login.click()
-
-transactionHall=driver.find_element(By.XPATH, '/html/body/uni-app/uni-tabbar/div[1]/div[3]/div/div[2]')
-transactionHall.click()
-
-element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, '/html/body/uni-app/uni-page/uni-page-wrapper/uni-page-body/uni-view/uni-view[3]/uni-view[1]/uni-view[2]')))
+#element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, '/html/body/uni-app/uni-page/uni-page-wrapper/uni-page-body/uni-view/uni-view[3]/uni-view[1]/uni-view[2]')))
 
 check=element_float_validator('CSS_SELECTOR','body > uni-app > uni-page > uni-page-wrapper > uni-page-body > uni-view > uni-view.division-wrap > uni-view.division-left > uni-view.division-num')
 print('In Transaction:', check)
@@ -81,16 +87,13 @@ print('Wallet Balance:', wallet_balance)
 
 if float(check) == 0: # or float(wallet_balance) > 5:
     while float(wallet_balance) > 5:
-
-        check_for_order=driver.find_element(By.CSS_SELECTOR, 'body > uni-app > uni-page > uni-page-wrapper > uni-page-body > uni-view > uni-view.grab-orders-wrap.grab-orders-wrap1 > uni-button')
-        check_for_order.click()
-
-        sell_order=driver.find_element(By.XPATH, '/html/body/uni-app/uni-page/uni-page-wrapper/uni-page-body/uni-view/uni-view[7]/uni-view/uni-view/uni-view[6]/uni-button[2]')
-        sell_order.click()
-
-        confirm_sale=driver.find_element(By.XPATH, '/html/body/uni-app/uni-page/uni-page-wrapper/uni-page-body/uni-view/uni-view[8]/uni-view/uni-view/uni-button')
-        confirm_sale.click()
-
+        #Click on Immmediate Action Button
+        clicker('css', 'body > uni-app > uni-page > uni-page-wrapper > uni-page-body > uni-view > uni-view.grab-orders-wrap.grab-orders-wrap1 > uni-button')
+        #Click on Sell Button
+        clicker('xpath', '/html/body/uni-app/uni-page/uni-page-wrapper/uni-page-body/uni-view/uni-view[7]/uni-view/uni-view/uni-view[6]/uni-button[2]')
+        #Click on Confirm Button
+        clicker('xpath', '/html/body/uni-app/uni-page/uni-page-wrapper/uni-page-body/uni-view/uni-view[8]/uni-view/uni-view/uni-button')
+        #Wait for Wallet Balance to be Updated
         check=element_float_validator('CSS_SELECTOR','body > uni-app > uni-page > uni-page-wrapper > uni-page-body > uni-view > uni-view.division-wrap > uni-view.division-left > uni-view.division-num')
         
         time.sleep(3)
@@ -107,4 +110,7 @@ if float(check) == 0: # or float(wallet_balance) > 5:
 else:
     print(datetime.now(),'- Not Yet!!!, Will Try Again In 30mins')
 
+time.sleep(5)
 driver.close()
+exit()
+print('Exiting...')
