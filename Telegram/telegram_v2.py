@@ -4,8 +4,9 @@ import os, re
 import time
 import asyncio
 import configparser
+import datetime
 
-os.chdir('C:\\Users\\miner\\Documents\\Python\\Telegram')
+os.chdir('C:\\Python\\Telegram')
 
 config = configparser.ConfigParser()
 config.read("config.ini")
@@ -35,8 +36,8 @@ async def my_event_handler(event):
     #        print('signal' in event.text.lower(),'signal')
     #        print('summary' in event.text.lower(),'summary')
             if "prepare" in event.text.lower():
-                print("Curency: ",str(event_list[3])[2:6]+str(event_list[3])[8:])
-                f.write(str(event_list[3])[2:6]+str(event_list[3])[8:]+', ')
+                print(datetime.datetime.now(), ':', "Curency: ",str(event_list[3])[2:6]+str(event_list[3])[8:])
+                f.write(str(datetime.datetime.now())+': '+str(event_list[3])[2:6]+str(event_list[3])[8:]+', ')
             elif "signal" in event.text.lower():
     #            print ('signal in event.text')
                 if "safe" in event.text.lower():
