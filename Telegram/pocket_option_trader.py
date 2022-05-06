@@ -1,10 +1,13 @@
 import configparser
+from curses.ascii import ESC
 from logging import exception
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.action_chains import ActionChains    
+from selenium.webdriver.common.keys import Keys
 import time
 from configparser import ConfigParser
 import os
@@ -54,45 +57,55 @@ def reset_timer():
 
 def set_timer(time):
     try:
+        clicker('//*[@id="put-call-buttons-chart-1"]/div/div[1]/div[1]/div[2]/div[1]/div')
         for num in range (int(time)-1):
             clicker('//*[@id="modal-root"]/div[2]/div/div/div[1]/div[2]/a[1]')
     except:
         print ('error in set timer')
 
-def pocket_option_trader(instrument,duration):
+def prepare(instrument):
     try:
-        #Set Expiration
-        reset_timer()
-        set_timer(duration)
-
-        time.sleep(1)
-        print('Timer Reset Completed')
         #Select Instrument To Trade
         clicker('//*[@id="bar-chart"]/div/div/div[1]/div/div[1]/div[1]/div[1]/div/a/div/span')
         enter(instrument,'//*[@id="modal-root"]/div[2]/div/div/div[2]/div[1]/div[1]/input')
         WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="modal-root"]/div[2]/div/div/div[2]/div[2]/div/div/div[1]/ul/li/a/span[3]'))).click()
+        ActionChains(driver).send_keys(Keys.ESCAPE).perform()
         payout = driver.find_element(By.XPATH,'//*[@id="put-call-buttons-chart-1"]/div/div[2]/div[1]/div[1]/div[2]/div/div[1]/span')
         print(instrument,':',payout.text)
         if int(payout.text[1:-2]) >= 50:
             print ('Payout too low!!!')
+            return 'ignore'
+    except:
+        print ('There is an issue with the prepare function')
 
+def pocket_option_trader(action, duration):
+    try:
+        #Set Expiration
+        set_timer(duration)
+        print ('Duration Set')
         time.sleep(1)
-#        clicker('//*[@id="bar-chart"]/div/div/div[1]/div/div[1]/div[1]/div[1]/div/a/div/span')
         #Input Trade Amount
         #enter (trade_amount, '//*[@id="put-call-buttons-chart-1"]/div/div[1]/div[2]/div[2]/div[1]/div/input')
-
-    #    time.sleep(1)
-    #    #Take a Trade
-    #    if action.lower() == "buy":
-    #        print ('Its a CALL!!!!!!!')
-    #        WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, long))).click()
-    #    elif action.lower() == "sell":
-    #        print ('Its a PUT!!!!!!!')
-    #       WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, short))).click()
+        #Take a Trade
+        if action.lower() == "buy":
+            print ('Its a CALL!!!!!!!')
+            buy()
+        elif action.lower() == "sell":
+            print ('Its a PUT!!!!!!!')
+            sell()
         return
         
     except:
-        print ('error in pocket_option_trader')
+        print ('error in pocket_option_trader', exception)
+
+def buy():
+    a = ActionChains(driver)
+    a.key_down(Keys.SHIFT).send_keys('W').perform()
+
+def sell():
+    a = ActionChains(driver)
+    a.key_down(Keys.SHIFT).send_keys('S').perform()
+
 
 
 chrome_options = Options()
@@ -147,8 +160,8 @@ currency = ''
 @client.on(events.NewMessage())
 async def my_event_handler(event):
     with open('results_new.csv', 'a') as f:
-#        if "1518994770" in str(event.peer_id):
-        if "1366707521" in str(event.peer_id):
+        if "1518994770" in str(event.peer_id):
+#        if "1366707521" in str(event.peer_id):
     #        print (event.text)
             event_list = event.text.strip().lower().split()
             print(event_list)
@@ -159,6 +172,7 @@ async def my_event_handler(event):
                 print(datetime.datetime.now(), ':', "Curency: ",str(event_list[3])[2:6]+str(event_list[3])[8:])
                 f.write(str(datetime.datetime.now())+': '+str(event_list[3])[2:6]+str(event_list[3])[8:]+', ')
                 currency = str(event_list[3])[2:6]+str(event_list[3])[8:]
+                prepare(currency)
                 with open('currency.txt', 'w') as c:
                     c.write(currency)                    
             elif 'signal' in event.text.lower():
@@ -168,12 +182,15 @@ async def my_event_handler(event):
     #           print ('signal in event.text')
                 if 'safe' in event.text.lower():
     #               print ('safe in event.text')
-                    print('Action:', re.sub(r'[()]','',str(event_list[4])).upper()+',', "Duration:", event_list[12])
+                    action =  re.sub(r'[()]','',str(event_list[4])).upper()
+                    duration = 2 #event_list[12]
+                    print('Action:', action+',', "Duration:", duration)
                     f.write('0, ')
-                    pocket_option_trader(currency,event_list[12])
                 else:
+                    action =  re.sub(r'[()]','',str(event_list[2])).upper()
+                    duration = 2 #event_list[5]
                     print('Action:', re.sub(r'[()]','',str(event_list[2])).upper()+',', "Duration:", event_list[5])
-                    pocket_option_trader(currency,event_list[5])
+                pocket_option_trader(action, duration)
             elif 'summary' in event.text.lower():
     #            print('summary in the list')
                 if 'safe' in event.text.lower():

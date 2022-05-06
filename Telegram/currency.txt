@@ -1,1 +1,1 @@
-usd/chf
+eur/usd
