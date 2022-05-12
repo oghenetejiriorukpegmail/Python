@@ -9,8 +9,10 @@ import time
 import asyncio
 import configparser
 
+os.chdir('C:\\Python\\Telegram')
+
 config = configparser.ConfigParser()
-config.read("Telegram/config.ini")
+config.read("config.ini")
 
 # Setting configuration values
 api_id = config['Telegram']['api_id']
@@ -26,18 +28,18 @@ async def main():
     await client.start()
     print(client.is_connected())
 #   channel_messages = client.iter_dialogs(limit=1,ignore_pinned='yes')
-    channel_username='cciephantom' # your channel
-    channel_entity=await client.get_entity('https://t.me/joinchat/3AZWEmp2NYM4Mzc6')
+    channel_username = 'cciephantom' # your channel
+    channel_entity = await client.get_entity('https://t.me/+nqEMPOiqk2g4YTMx')
     print (channel_entity)
     posts = await client(GetHistoryRequest(
-        peer=channel_entity,
-        limit=1,
-        offset_date=None,
-        offset_id=0,
-        max_id=0,
-        min_id=0,
-        add_offset=0,
-        hash=0))
+        peer = channel_entity,
+        limit = 1,
+        offset_date = None,
+        offset_id = 0,
+        max_id = 0,
+        min_id = 0,
+        add_offset = 0,
+        hash = 0))
     
     print (posts.messages)
 

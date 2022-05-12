@@ -7,6 +7,8 @@ import time
 from datetime import datetime
 import os
 
+os.chdir('C:\\Python\\cotps')
+
 password_text='Ideraoluwa@01'
 
 def element_float_validator(method,element_locator):
@@ -42,7 +44,8 @@ chrome_options.add_argument("--disable-gpu")
 #chrome_options.add_argument("--no-sandbox") # linux only
 #chrome_options.add_argument("--headless")
 
-driver=webdriver.Chrome(executable_path='C:/Users/miner/Documents/Python/chromedriver.exe',options=chrome_options)
+#driver=webdriver.Firefox(executable_path='D:/geckodriver.exe')
+driver=webdriver.Chrome(executable_path='C:/Python/chromedriver.exe',options=chrome_options)
 driver.get('https://cotps.com/#/pages/login/login?originSource=userCenter')
 driver.maximize_window()
 driver.implicitly_wait(100)
@@ -58,9 +61,9 @@ time.sleep(2)
 #Click Login Button
 clicker('xpath', '/html/body/uni-app/uni-page/uni-page-wrapper/uni-page-body/uni-view/uni-button')
 #Click Transaction Hall Button
-clicker('xpath', '/html/body/uni-app/uni-tabbar/div[1]/div[3]/div/div[2]')
-
-#element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, '/html/body/uni-app/uni-page/uni-page-wrapper/uni-page-body/uni-view/uni-view[3]/uni-view[1]/uni-view[2]')))
+time.sleep(2)
+clicker('xpath', '/html/body/uni-app/uni-tabbar/div[1]/div[3]')
+#element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, 'html body.uni-body.pages-userCenter-userCenter uni-app.uni-app--showtabbar.uni-app--maxwidth uni-tabbar.uni-tabbar-bottom div.uni-tabbar div.uni-tabbar__item'))).click()
 
 check=element_float_validator('CSS_SELECTOR','body > uni-app > uni-page > uni-page-wrapper > uni-page-body > uni-view > uni-view.division-wrap > uni-view.division-left > uni-view.division-num')
 print('In Transaction:', check)
@@ -101,15 +104,12 @@ if float(check) == 0: # or float(wallet_balance) > 5:
         print (wallet_balance)
 
     print(datetime.now(),'Session Completed!')
-    session_file = open("cotps_session.txt", "a")
-    log_session_to_file='Session Completed! at '+str(datetime.now())+'\r'
-    session_file.write(log_session_to_file)      
-    session_file.close()
+    with open("cotps_session.txt", "a") as session_file:
+        log_session_to_file='Session Completed! at '+str(datetime.now())+'\r'
+        session_file.write(log_session_to_file)      
+        session_file.close()
     
 else:
     print(datetime.now(),'- Not Yet!!!, Will Try Again In 30mins')
-
-time.sleep(5)
 driver.close()
-exit()
 print('Exiting...')

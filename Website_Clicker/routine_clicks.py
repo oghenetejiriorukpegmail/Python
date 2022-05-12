@@ -30,12 +30,12 @@ def login(param,xpath):
     credential.send_keys(param)
 
 config=ConfigParser()
-config.read('C:\\Users\\miner\\Documents\\Python\\Website_Clicker\\config.ini')
+config.read('C:\\Python\\Website_Clicker\\config.ini')
 #print(config.sections())
 cryptostackers=config['Websites']['cryptostackers']
 #coinstats=config['Websites']['coinstats']
 
-driver=webdriver.Chrome(executable_path='C:/Users/miner/Documents/Python/chromedriver.exe',options=chrome_options)
+driver=webdriver.Chrome(executable_path='C:/Python/chromedriver.exe',options=chrome_options)
 driver.implicitly_wait(100)
 
 driver.get(cryptostackers)
