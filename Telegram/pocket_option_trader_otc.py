@@ -16,7 +16,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
 import time, random
 from configparser import ConfigParser
-import os, sys
+import os
 from telethon import TelegramClient
 from telethon import events
 import os, re
@@ -43,7 +43,7 @@ def enter(param,xpath):
 
 def reset_timer():
     try:
-        check_timer = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH,'//*[@id="put-call-buttons-chart-1"]/div/div[1]/div[1]/div[1]')))
+        check_timer = driver.find_element(By.XPATH,'//*[@id="put-call-buttons-chart-1"]/div/div[1]/div[1]/div[1]')
 #        print(check_timer.text)
         if 'utc' in str(check_timer.text).lower():
             #change to fixed duration
@@ -56,16 +56,12 @@ def reset_timer():
 #        enter(1,'//*[@id="modal-root"]/div[2]/div/div/div[1]/div[2]/div/input')
 #       #Reset  Hours
         WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="modal-root"]/div[2]/div/div/div[1]/div[1]/div/input'))).click()
-        ActionChains(driver).send_keys(Keys.BACKSPACE).send_keys(Keys.BACKSPACE).send_keys('00').perform()
+        ActionChains(driver).send_keys(Keys.BACKSPACE).send_keys(Keys.BACKSPACE).send_keys(0).perform()
 #        enter(0, '//*[@id="modal-root"]/div[2]/div/div/div[1]/div[1]/div/input')
 #       #Reset Seconds
         WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="modal-root"]/div[2]/div/div/div[1]/div[3]/div/input'))).click()
-        ActionChains(driver).send_keys(Keys.BACKSPACE).send_keys(Keys.BACKSPACE).send_keys('00').perform()
+        ActionChains(driver).send_keys(Keys.BACKSPACE).send_keys(Keys.BACKSPACE).send_keys(0).perform()
 #        enter(0,'//*[@id="modal-root"]/div[2]/div/div/div[1]/div[3]/div/input')
-#       #Reset  Minutes
-        WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="modal-root"]/div[2]/div/div/div[1]/div[2]/div/input'))).click()
-        ActionChains(driver).send_keys(Keys.BACKSPACE).send_keys(Keys.BACKSPACE).perform()
-#        enter(1,'//*[@id="modal-root"]/div[2]/div/div/div[1]/div[2]/div/input')
 
 
 #            #reset the hour
@@ -79,27 +75,24 @@ def reset_timer():
     except:
         print ('error in reset timer')
 
-def set_minute_timer(time):
-    global otc, ignore
+def set_minute_timer(time, otc):
     try:
-        clicker('//*[@id="put-call-buttons-chart-1"]/div/div[1]/div[1]/div[2]/div[1]/div')
-        for i in range (time-1):
-            clicker('//*[@id="modal-root"]/div[2]/div/div/div[1]/div[2]/a[1]')
-        
-    except Exception as e:
-        print ('error in set minute timer', e)
-
-def set_trade_amount(amount):
-    amount = f'{amount:04}'
-    try:
-        print (amount)
-        WebDriverWait(driver, 1).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="put-call-buttons-chart-1"]/div/div[1]/div[2]/div[2]/div[1]/div/input'))).click()
-        ActionChains(driver).send_keys(Keys.BACKSPACE).send_keys(Keys.BACKSPACE).send_keys(Keys.BACKSPACE).send_keys(Keys.BACKSPACE).perform()
-        ActionChains(driver).send_keys(amount[0]).send_keys(amount[1]).send_keys(amount[2]).send_keys(amount[3]).perform()   
+        #reset_timer()
+        if otc == True:
+            clicker ('//*[@id="put-call-buttons-chart-1"]/div/div[1]/div[1]/div[2]/div[1]/div')
+            WebDriverWait(driver, 1).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="modal-root"]/div[2]/div/div/div[1]/div[2]/div/input'))).click()
+            ActionChains(driver).send_keys(Keys.BACKSPACE).send_keys(Keys.BACKSPACE).send_keys(time).perform()
+            WebDriverWait(driver, 1).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="modal-root"]/div[2]/div/div/div[1]/div[3]/div/input'))).click()
+            ActionChains(driver).send_keys(Keys.BACKSPACE).send_keys(Keys.BACKSPACE).send_keys(0).perform()
+        clicker ('//*[@id="put-call-buttons-chart-1"]/div/div[1]/div[1]/div[2]/div[1]/div')
+        WebDriverWait(driver, 1).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="modal-root"]/div[2]/div/div/div[1]/div[2]/div/input'))).click()
+        ActionChains(driver).send_keys(Keys.BACKSPACE).send_keys(Keys.BACKSPACE).send_keys(time).perform()
+        WebDriverWait(driver, 1).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="modal-root"]/div[2]/div/div/div[1]/div[3]/div/input'))).click()
+        ActionChains(driver).send_keys(Keys.BACKSPACE).send_keys(Keys.BACKSPACE).send_keys(0).perform()   
         clicker('//*[@id="chart-1"]/canvas')    
         
     except Exception as e:
-        print ('error in set trade amount', e)
+        print ('error in set minute timer', e)
 
 def check_payout():
     global payout_path, payout_threshold, ignore
@@ -116,7 +109,7 @@ def check_payout():
         print ('There is an issue with the check payout function', e)
 
 def prepare(instrument):
-    global ignore, trade_amount
+    global ignore 
     market_check()
     if ignore == False:
         try:
@@ -131,18 +124,17 @@ def prepare(instrument):
                 print ('Ignoring due to instrument unavailability')
             ActionChains(driver).send_keys(Keys.ESCAPE).perform()
             reset_timer()
-            set_trade_amount(trade_amount)
         except:
             print ('There is an issue with the prepare function')
 
-def pocket_option_trader(action, duration):
-    global otc
+def pocket_option_trader(action, duration, otc):
     try:
         #Set Expiration
-        set_minute_timer(duration)
+        set_minute_timer(duration, otc)
         #print ('Duration Set')
         #time.sleep(1)
         #Input Trade Amount
+        trade_amount = 10
     #    WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="put-call-buttons-chart-1"]/div/div[1]/div[2]/div[2]/div[1]/div/input'))).click()
     #    ActionChains(driver).send_keys(Keys.BACKSPACE).send_keys(Keys.BACKSPACE).send_keys(Keys.BACKSPACE).send_keys(Keys.BACKSPACE).send_keys(Keys.BACKSPACE).send_keys('10').perform()
         #Take a Trade
@@ -164,9 +156,9 @@ def pocket_option_trader(action, duration):
 def profit_checker():
     global otc
 #    if otc == True:
-#    profit = driver.find_element(By.XPATH,'//*[@id="put-call-buttons-chart-1"]/div/div[2]/div[1]/div[1]/div[2]/div/div[1]/span')
-    current = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, '/html/body/div[4]/div[1]/header/div[2]/div[3]/div/a/span')))
-    return float(current.text)
+#        profit = driver.find_element(By.XPATH,'//*[@id="put-call-buttons-chart-1"]/div/div[2]/div[1]/div[1]/div[2]/div/div[1]/span')
+    profit = driver.find_element(By.XPATH, '/html/body/div[4]/div[1]/header/div[2]/div[2]/div/a/span')
+    return float(profit.text)
 
 def compare_payouts(currency_list):
     payout_list = []
@@ -214,10 +206,10 @@ driver.implicitly_wait(5)
 driver.get(pocket_options)
 
 
-enter('tejiri.fai1@gmail.com','/html/body/div[2]/div[2]/div/div/div/div[3]/form/div[2]/div[1]/input')
-enter('H27VGUJQ','/html/body/div[2]/div[2]/div/div/div/div[3]/form/div[2]/div[2]/input')
-#enter('cciephantom@gmail.com','/html/body/div[2]/div[2]/div/div/div/div[3]/form/div[2]/div[1]/input')
-#enter('Ideraoluwa@01','/html/body/div[2]/div[2]/div/div/div/div[3]/form/div[2]/div[2]/input')
+#enter('tejiri.fai1@gmail.com','/html/body/div[2]/div[2]/div/div/div/div[3]/form/div[2]/div[1]/input')
+#enter('H27VGUJQ','/html/body/div[2]/div[2]/div/div/div/div[3]/form/div[2]/div[2]/input')
+enter('cciephantom@gmail.com','/html/body/div[2]/div[2]/div/div/div/div[3]/form/div[2]/div[1]/input')
+enter('Ideraoluwa@01','/html/body/div[2]/div[2]/div/div/div/div[3]/form/div[2]/div[2]/input')
 #enter('oghenetejiri_orukpe@yahoo.com','/html/body/div[2]/div[2]/div/div/div/div[3]/form/div[2]/div[1]/input')
 #enter('rsBUlxEr','/html/body/div[2]/div[2]/div/div/div/div[3]/form/div[2]/div[2]/input')
 
@@ -244,9 +236,8 @@ api_hash = str(api_hash)
 phone = config['Telegram']['phone']
 username = config['Telegram']['username']
 
-#Variables
 payout_path = '//*[@id="put-call-buttons-chart-1"]/div/div[2]/div[1]/div[1]/div[2]/div/div[1]/span'
-payout_threshold = 69
+payout_threshold = 74
 ignore = False
 cool_off = 0
 cool_off_trigger = 10
@@ -255,16 +246,11 @@ otc = True
 action = ''
 duration = 0
 safe = True
-martingale_multiple = 2
 
 initial_balance = profit_checker()
 print (initial_balance)
-trade_amount = int(0.02 * initial_balance)
-#Convert Trade Amount from Digit to 4-Character String
-if len(sys.argv) < 2:
-    target_balance = float(input('Target for this session:'))
-else:
-    target_balance = float(sys.argv[1])
+target_balance = float(input('Target for this session:'))
+
 client = TelegramClient('binarex_robot', api_id, api_hash)
 @client.on(events.NewMessage())
 async def my_event_handler(event):
@@ -281,14 +267,12 @@ async def my_event_handler(event):
                 currency = str(event_list[3])[2:5]+str(event_list[3])[8:]
                 if 'otc' in event.text.lower():
                     otc = True
-                else:
-                    otc = False
                 prepare(currency)
                 with open('currency.txt', 'w') as c:
                     c.write(str(profit_checker()))  
                 r.write(currency+', ')                  
-            elif ('completed' in event.text.lower() and 'summary' in event.text.lower() ) or ('summary' in event.text.lower() and 'closing' in event.text.lower()):
-                time.sleep(1)
+            elif ('completed' in event.text.lower()) or ('finished' in event.text.lower()):
+                time.sleep(5)
                 with open('currency.txt', 'r') as c:
                     old_balance = float(c.read())
                 new_balance = profit_checker()
@@ -300,6 +284,10 @@ async def my_event_handler(event):
                     print (new_balance, 'Loss')
                     r.write('0\n')
                     cool_off = cool_off + 1
+                    if safe == True:
+                        duration = 2
+                        pocket_option_trader(action, duration, otc)
+                        time.sleep(duration)
                 else:
                     print ('Draw')
                     r.write('\n')
@@ -313,23 +301,13 @@ async def my_event_handler(event):
                     cool_off = 0
                     random_break()
 
-            elif 'signal' in event.text.lower() and 'safe' in event.text.lower():
-                action =  re.sub(r'[()]','',str(event_list[4])).upper()
-                duration = int(event_list[12])
-                print('Action:', action,'Currency:', currency, 'Duration:', duration)
-                set_trade_amount(martingale_multiple * trade_amount)
-                reset_timer()
-                pocket_option_trader(action, duration) 
-                
             elif 'signal' in event.text.lower():
                 print ('Ignore:', ignore)
                 action =  re.sub(r'[()]','',str(event_list[2])).upper()
                 duration = int(event_list[5])
                 print('Action:', action,'Currency:', currency, 'Duration:', duration)
                 if ignore == False:
-                    pocket_option_trader(action, duration)
-
-       
+                    pocket_option_trader(action, duration, otc)
 
                
 

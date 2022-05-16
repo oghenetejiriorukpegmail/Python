@@ -15,3 +15,152 @@ console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message f
 console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://pocketoption.com"
 JavaScript error: resource://gre/modules/LoginManagerParent.jsm, line 136: TypeError: gRecipeManager is null
 JavaScript warning: https://pocketoption.com/platform/vendor.js?v=1652189021, line 2: WebGL context was lost.
+1652707562926	geckodriver	INFO	Listening on 127.0.0.1:53592
+1652707565963	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "--remote-debugging-port" "53593" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\miner\\AppData\\Local\\Temp\\rust_mozprofilemLfHsn"
+1652707566909	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\miner\\AppData\\Local\\Temp\\rust_mozprofilemLfHsn\\search.json.mozlz4", (void 0)))
+DevTools listening on ws://localhost:53593/devtools/browser/6e5200c8-0024-4c53-a248-a5aabc3e82c4
+1652707568790	Marionette	INFO	Listening on port 53617
+Read port: 53617
+1652707568880	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+1652707572340	Marionette	WARN	TimedPromise timed out after 500 ms: stacktrace:
+TimedPromise/<@chrome://remote/content/marionette/sync.js:235:19
+TimedPromise@chrome://remote/content/marionette/sync.js:220:10
+interaction.flushEventLoop@chrome://remote/content/marionette/interaction.js:431:10
+webdriverClickElement@chrome://remote/content/marionette/interaction.js:179:31
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://pocketoption.com"
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://pocketoption.com"
+JavaScript error: resource://gre/modules/LoginManagerParent.jsm, line 136: TypeError: gRecipeManager is null
+Marionette threw an error: TypeError: browsingContext.currentWindowGlobal is null
+getMarionetteCommandsActorProxy/get/<@chrome://remote/content/marionette/actors/MarionetteCommandsParent.jsm:332:29
+
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://pocketoption.com"
+JavaScript error: resource://gre/modules/LoginManagerParent.jsm, line 136: TypeError: gRecipeManager is null
+JavaScript warning: https://pocketoption.com/platform/vendor.js?v=1652691739, line 2: WebGL context was lost.
+1652707612528	Marionette	INFO	Stopped listening on port 53617
+console.warn: TopSitesFeed: Failed to fetch data from Contile server: NetworkError when attempting to fetch resource.
+1652707615120	geckodriver	INFO	Listening on 127.0.0.1:53702
+1652707618122	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "--remote-debugging-port" "53703" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\miner\\AppData\\Local\\Temp\\rust_mozprofilecu0SR4"
+1652707618429	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\miner\\AppData\\Local\\Temp\\rust_mozprofilecu0SR4\\search.json.mozlz4", (void 0)))
+DevTools listening on ws://localhost:53703/devtools/browser/e96b7832-1331-4741-88d6-65475cc891aa
+1652707619996	Marionette	INFO	Listening on port 53726
+Read port: 53726
+1652707620099	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+1652707623213	Marionette	WARN	TimedPromise timed out after 500 ms: stacktrace:
+TimedPromise/<@chrome://remote/content/marionette/sync.js:235:19
+TimedPromise@chrome://remote/content/marionette/sync.js:220:10
+interaction.flushEventLoop@chrome://remote/content/marionette/interaction.js:431:10
+webdriverClickElement@chrome://remote/content/marionette/interaction.js:179:31
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://pocketoption.com"
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://pocketoption.com"
+JavaScript error: resource://gre/modules/LoginManagerParent.jsm, line 136: TypeError: gRecipeManager is null
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://pocketoption.com"
+JavaScript error: resource://gre/modules/LoginManagerParent.jsm, line 136: TypeError: gRecipeManager is null
+JavaScript warning: https://pocketoption.com/platform/vendor.js?v=1652691739, line 2: WebGL context was lost.
+1652707647376	Marionette	INFO	Stopped listening on port 53726
+console.warn: TopSitesFeed: Failed to fetch data from Contile server: NetworkError when attempting to fetch resource.
+1652707654198	geckodriver	INFO	Listening on 127.0.0.1:53813
+1652707657221	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "--remote-debugging-port" "53814" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\miner\\AppData\\Local\\Temp\\rust_mozprofileZnavZ3"
+1652707657544	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\miner\\AppData\\Local\\Temp\\rust_mozprofileZnavZ3\\search.json.mozlz4", (void 0)))
+DevTools listening on ws://localhost:53814/devtools/browser/e9c600aa-9b89-4598-a923-ba598f0fff0c
+1652707659168	Marionette	INFO	Listening on port 53834
+Read port: 53834
+1652707659200	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+1652707662042	Marionette	WARN	TimedPromise timed out after 500 ms: stacktrace:
+TimedPromise/<@chrome://remote/content/marionette/sync.js:235:19
+TimedPromise@chrome://remote/content/marionette/sync.js:220:10
+interaction.flushEventLoop@chrome://remote/content/marionette/interaction.js:431:10
+webdriverClickElement@chrome://remote/content/marionette/interaction.js:179:31
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://pocketoption.com"
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://pocketoption.com"
+JavaScript error: resource://gre/modules/LoginManagerParent.jsm, line 136: TypeError: gRecipeManager is null
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://pocketoption.com"
+JavaScript error: resource://gre/modules/LoginManagerParent.jsm, line 136: TypeError: gRecipeManager is null
+JavaScript warning: https://pocketoption.com/platform/vendor.js?v=1652691739, line 2: WebGL context was lost.
+JavaScript error: resource://gre/modules/AsyncShutdown.jsm, 1652707800784	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "--remote-debugging-port" "53961" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\miner\\AppData\\Local\\Temp\\rust_mozprofileE0k6lV"
+1652707801112	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\miner\\AppData\\Local\\Temp\\rust_mozprofileE0k6lV\\search.json.mozlz4", (void 0)))
+DevTools listening on ws://localhost:53961/devtools/browser/47ce5ba0-cad9-4e84-ab53-00616676df5a
+1652707802766	Marionette	INFO	Listening on port 53983
+Read port: 53983
+1652707802849	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+1652707805858	Marionette	WARN	TimedPromise timed out after 500 ms: stacktrace:
+TimedPromise/<@chrome://remote/content/marionette/sync.js:235:19
+TimedPromise@chrome://remote/content/marionette/sync.js:220:10
+interaction.flushEventLoop@chrome://remote/content/marionette/interaction.js:431:10
+webdriverClickElement@chrome://remote/content/marionette/interaction.js:179:31
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://pocketoption.com"
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://pocketoption.com"
+JavaScript error: resource://gre/modules/LoginManagerParent.jsm, line 136: TypeError: gRecipeManager is null
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://pocketoption.com"
+JavaScript error: resource://gre/modules/LoginManagerParent.jsm, line 136: TypeError: gRecipeManager is null
+JavaScript warning: https://pocketoption.com/platform/vendor.js?v=1652691739, line 2: WebGL context was lost.
+1652707908742	Marionette	INFO	Stopped listening on port 53983
+console.warn: TopSitesFeed: Failed to fetch data from Contile server: NetworkError when attempting to fetch resource.
+1652707928841	geckodriver	INFO	Listening on 127.0.0.1:54077
+1652707931863	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "--remote-debugging-port" "54078" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\miner\\AppData\\Local\\Temp\\rust_mozprofileburJES"
+1652707932169	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\miner\\AppData\\Local\\Temp\\rust_mozprofileburJES\\search.json.mozlz4", (void 0)))
+DevTools listening on ws://localhost:54078/devtools/browser/d8ebdbc6-8442-4049-8f5d-7f31537eba67
+1652707933718	Marionette	INFO	Listening on port 54098
+Read port: 54098
+1652707933755	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+1652707936838	Marionette	WARN	TimedPromise timed out after 500 ms: stacktrace:
+TimedPromise/<@chrome://remote/content/marionette/sync.js:235:19
+TimedPromise@chrome://remote/content/marionette/sync.js:220:10
+interaction.flushEventLoop@chrome://remote/content/marionette/interaction.js:431:10
+webdriverClickElement@chrome://remote/content/marionette/interaction.js:179:31
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://pocketoption.com"
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://pocketoption.com"
+JavaScript error: resource://gre/modules/LoginManagerParent.jsm, line 136: TypeError: gRecipeManager is null
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://pocketoption.com"
+JavaScript error: resource://gre/modules/LoginManagerParent.jsm, line 136: TypeError: gRecipeManager is null
+JavaScript warning: https://pocketoption.com/platform/vendor.js?v=1652691739, line 2: WebGL context was lost.
+JavaScript error: resource://gre/modules/AsyncShutdown.jsm, line 575: NotFoundError: No such JSWindowActor 'DevToolsFrame'
+1652708326429	Marionette	INFO	Stopped listening on port 54098
+e-debugging-port" "54235" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\miner\\AppData\\Local\\Temp\\rust_mozprofiletj9gea"
+1652708181153	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\miner\\AppData\\Local\\Temp\\rust_mozprofiletj9gea\\search.json.mozlz4", (void 0)))
+DevTools listening on ws://localhost:54235/devtools/browser/ccd1a4ec-8fe0-42f4-838b-980ed1ebf1d4
+1652708183194	Marionette	INFO	Listening on port 54260
+Read port: 54260
+1652708183298	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+1652708186913	Marionette	WARN	TimedPromise timed out after 500 ms: stacktrace:
+TimedPromise/<@chrome://remote/content/marionette/sync.js:235:19
+TimedPromise@chrome://remote/content/marionette/sync.js:220:10
+interaction.flushEventLoop@chrome://remote/content/marionette/interaction.js:431:10
+webdriverClickElement@chrome://remote/content/marionette/interaction.js:179:31
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://pocketoption.com"
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://pocketoption.com"
+JavaScript error: resource://gre/modules/LoginManagerParent.jsm, line 136: TypeError: gRecipeManager is null
+Marionette threw an error: TypeError: browsingContext.currentWindowGlobal is null
+getMarionetteCommandsActorProxy/get/<@chrome://remote/content/marionette/actors/MarionetteCommandsParent.jsm:332:29
+
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://pocketoption.com"
+JavaScript error: resource://gre/modules/LoginManagerParent.jsm, line 136: TypeError: gRecipeManager is null
+JavaScript warning: https://pocketoption.com/platform/vendor.js?v=1652691739, line 2: WebGL context was lost.
+1652708234256	Marionette	INFO	Stopped listening on port 54260
+console.warn: TopSitesFeed: Failed to fetch data from Contile server: NetworkError when attempting to fetch resource.
+1652708323018	geckodriver	INFO	Listening on 127.0.0.1:54403
+1652708326013	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "--remote-debugging-port" "54404" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\miner\\AppData\\Local\\Temp\\rust_mozprofilebHoxmx"
+1652708326690	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\miner\\AppData\\Local\\Temp\\rust_mozprofilebHoxmx\\search.json.mozlz4", (void 0)))
+DevTools listening on ws://localhost:54404/devtools/browser/3b7e6794-a7b2-4d5e-b5af-093edba386c1
+1652708328398	Marionette	INFO	Listening on port 54448
+Read port: 54448
+1652708328490	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+1652708331532	Marionette	WARN	TimedPromise timed out after 500 ms: stacktrace:
+TimedPromise/<@chrome://remote/content/marionette/sync.js:235:19
+TimedPromise@chrome://remote/content/marionette/sync.js:220:10
+interaction.flushEventLoop@chrome://remote/content/marionette/interaction.js:431:10
+webdriverClickElement@chrome://remote/content/marionette/interaction.js:179:31
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://pocketoption.com"
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://pocketoption.com"
+JavaScript error: resource://gre/modules/LoginManagerParent.jsm, line 136: TypeError: gRecipeManager is null
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://pocketoption.com"
+JavaScript error: resource://gre/modules/LoginManagerParent.jsm, line 136: TypeError: gRecipeManager is null
+JavaScript warning: https://pocketoption.com/platform/vendor.js?v=1652691739, line 2: WebGL context was lost.
+1652708407506	Marionette	INFO	Stopped listening on port 54448
+console.warn: TopSitesFeed: Failed to fetch data from Contile server: NetworkError when attempting to fetch resource.

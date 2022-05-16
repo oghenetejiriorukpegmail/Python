@@ -49,8 +49,16 @@ login(config['Credentials']['password'],'/html/body/div[1]/div/div/div/div[2]/di
 time.sleep(1)
 
 clicker('/html/body/div[1]/div/div/div/div[2]/div/div[1]/div[1]/div/div[2]/div[1]/div/div[2]/div[1]/div/div/div/div/div/div[4]/div/button')
-clicker('/html/body/div[1]/div[1]/div[1]/div[1]/div[2]/div/div/div[2]/div/div[2]/div[1]/div[1]/div/div/div[2]/button')
-
+#clicker('/html/body/div[1]/div[1]/div[1]/div[1]/div[2]/div/div/div[2]/div/div[2]/div[1]/div[1]/div/div/div[2]/button')
+while True:
+    check = driver.find_element(By.XPATH, '/html/body/div[1]/div[1]/div[1]/div[1]/div[2]/div/div/div[2]/div/div[2]/div[1]/div[1]/div/div/div[2]/button').get_attribute('href')
+    print (check)
+    if check == 'None':
+        Print('Waiting ...')
+        time.sleep(600)
+        continue
+    else:
+        clicker('/html/body/div[1]/div[1]/div[1]/div[1]/div[2]/div/div/div[2]/div/div[2]/div[1]/div[1]/div/div/div[2]/button')
 time.sleep(5)
 
 driver.close()
