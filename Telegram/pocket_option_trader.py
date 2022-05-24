@@ -16,10 +16,9 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
 import time, random
 from configparser import ConfigParser
-import os, sys
 from telethon import TelegramClient
 from telethon import events
-import os, re, platform
+import os, sys, re, platform
 import time
 import asyncio
 import configparser
@@ -29,7 +28,7 @@ import datetime
 if platform.system() == 'Windows':
     os.chdir('C:\\Python\\Telegram')
 elif platform.system() == 'Linux':
-    os.chdir('/Python/Telegram')
+    os.chdir('/github/Python/Telegram')
 
 def clicker(element_locator):
     try:
@@ -203,7 +202,7 @@ pocket_options='https://pocketoption.com/en/login'
 if platform.system() == 'Windows':
     chrome_path = 'C:\\Python\\chromedriver.exe'
 elif platform.system() == 'Linux':
-    chrome_path = '/Python/chromedriver.exe'
+    chrome_path = '/github/Python/chromedriver'
 
 driver=webdriver.Chrome(executable_path=chrome_path,options=chrome_options)
 driver.implicitly_wait(5)
