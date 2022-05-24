@@ -46,7 +46,6 @@ print('Time to Login ....')
 
 time.sleep(15)
 
-pocket_option_trader.reset_timer()
+pocket_option_trader.reset_timer_2()
 
-pocket_option_trader(10,'usdchf',5)
 print ('Ready to Trade!!!')
