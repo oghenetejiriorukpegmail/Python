@@ -28,7 +28,7 @@ import datetime
 
 if platform.system() == 'Windows':
     os.chdir('C:\\Python\\Telegram')
-else platform.system() == 'Linux'
+elif platform.system() == 'Linux':
     os.chdir('/Python/Telegram')
 
 def clicker(element_locator):
@@ -202,7 +202,7 @@ chrome_options.add_experimental_option('useAutomationExtension', False)
 pocket_options='https://pocketoption.com/en/login'
 if platform.system() == 'Windows':
     chrome_path = 'C:\\Python\\chromedriver.exe'
-else platform.system() == 'Linux'
+elif platform.system() == 'Linux':
     chrome_path = '/Python/chromedriver.exe'
 
 driver=webdriver.Chrome(executable_path=chrome_path,options=chrome_options)
