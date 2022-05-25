@@ -42,11 +42,11 @@ def enter(param,xpath):
     credential.send_keys(param)
 
 def change_to_fixed_expiration():
-        check_timer = driver.find_element(By.XPATH,'//*[@id="put-call-buttons-chart-1"]/div/div[1]/div[1]/div[1]')
-        if 'utc' in str(check_timer.text).lower():
+        check_timer = WebDriverWait(driver,60).until(EC.presence_of_element_located((By.XPATH, '//*[@id="put-call-buttons-chart-1"]/div/div[1]/div[1]/div[1]')))
+        if 'utc' in check_timer.text.lower():
             #change to fixed duration
             clicker('//*[@id="put-call-buttons-chart-1"]/div/div[1]/div[1]/div[2]/div[2]/div/a')
-        print('Changed to Fixed Duration')
+            print('Changed to Fixed Duration')
 
 def reset_timer():
     try:
@@ -58,12 +58,15 @@ def reset_timer():
         print ('error in reset function', e)
 
 def set_minute_timer(time):
+    time = int(time)
     try:
         clicker ('//*[@id="put-call-buttons-chart-1"]/div/div[1]/div[1]/div[2]/div[1]/div')
-        WebDriverWait(driver, 1).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="modal-root"]/div[2]/div/div/div[1]/div[2]/div/input'))).click()
-        ActionChains(driver).send_keys(Keys.BACKSPACE).send_keys(Keys.BACKSPACE).send_keys(time).perform()
-        WebDriverWait(driver, 1).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="modal-root"]/div[2]/div/div/div[1]/div[3]/div/input'))).click()
-        ActionChains(driver).send_keys(Keys.BACKSPACE).send_keys(Keys.BACKSPACE).send_keys(0).perform()   
+#        WebDriverWait(driver, 1).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="modal-root"]/div[2]/div/div/div[1]/div[2]/div/input'))).click()
+#        ActionChains(driver).send_keys(Keys.BACKSPACE).send_keys(Keys.BACKSPACE).send_keys(time).perform()
+#        WebDriverWait(driver, 1).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="modal-root"]/div[2]/div/div/div[1]/div[3]/div/input'))).click()
+#        ActionChains(driver).send_keys(Keys.BACKSPACE).send_keys(Keys.BACKSPACE).send_keys(0).perform()   
+        for i in range (time-1):
+            clicker('//*[@id="modal-root"]/div[2]/div/div/div[1]/div[2]/a[1]')
         clicker('//*[@id="chart-1"]/canvas')    
         
     except Exception as e:
@@ -89,8 +92,8 @@ def compare_payouts(currency_list):
 #        payout_value_path = '//*[@id="put-call-buttons-chart-1"]/div/div[2]/div[1]/div[1]/div[2]/div/div[1]/span'
         for i in currency_list:
             prepare(i)
-            time.sleep(1)
             payout_list.append(float(driver.find_element(By.XPATH, payout_path).text[1:-1]))
+            time.sleep(1)
         choice = currency_list[(payout_list.index(max(payout_list)))]
         print (choice)
         return choice
@@ -127,8 +130,11 @@ def prepare(instrument):
                 ignore = True
                 print ('Ignoring due to instrument unavailability')
             ActionChains(driver).send_keys(Keys.ESCAPE).perform()
+<<<<<<< HEAD
             reset_timer()
             set_trade_amount_percent()
+=======
+>>>>>>> e108b35e56ece7c9c98cdbfbb8852625d09dc5d4
             check_payout()
         except Exception as e:
             print ('There is an issue with the prepare function', e)
@@ -191,8 +197,6 @@ chrome_options.add_argument("start-maximized")
 chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
 chrome_options.add_experimental_option('useAutomationExtension', False)
 
-
-pocket_options='https://pocketoption.com/en/login'
 
 pocket_options='https://pocketoption.com/en/login'
 
@@ -262,7 +266,7 @@ trade_amount = int(balance*trading_percent/100)
 print(trade_amount)
 set_trade_amount_percent()
 change_to_fixed_expiration()
-reset_timer()
+#reset_timer()
 
 client = TelegramClient('tradingview_robot', api_id, api_hash)
 
@@ -296,14 +300,16 @@ try:
                     print("Taking the", best_currency, 'trade...')
                     best_pair = event_list[currency_list.index(best_currency)]
                     print (best_pair)
-                    prepare(best_currency)
+                    currency = best_currency
                 else:   
                     best_pair = event_list[0]
                     currency = best_pair.split(',')[0]
-                    prepare(currency)
+                prepare(currency)
 #                time.sleep(1)
                 market_check()
                 if ignore == False:
+                    reset_timer()
+                    set_trade_amount_percent()
                     action = best_pair.split(',')[1]
                     duration = best_pair.split(',')[2]
                     pocket_option_trader(action,duration)
