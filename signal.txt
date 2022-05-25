@@ -1,0 +1,7 @@
+Harry
+USDJPY
+WIN
+PUT
+5 minute
+TRADE
+0:00
