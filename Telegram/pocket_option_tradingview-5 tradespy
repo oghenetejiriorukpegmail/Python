@@ -75,6 +75,7 @@ def set_minute_timer(time):
 def set_trade_amount_percent():
     amount = trading_balance()*trading_percent/100
     amount = f'{amount:04}'
+    print (amount)
     try:
         print (amount)
         WebDriverWait(driver, 1).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="put-call-buttons-chart-1"]/div/div[1]/div[2]/div[2]/div[1]/div/input'))).click()
@@ -130,11 +131,8 @@ def prepare(instrument):
                 ignore = True
                 print ('Ignoring due to instrument unavailability')
             ActionChains(driver).send_keys(Keys.ESCAPE).perform()
-<<<<<<< HEAD
             reset_timer()
             set_trade_amount_percent()
-=======
->>>>>>> e108b35e56ece7c9c98cdbfbb8852625d09dc5d4
             check_payout()
         except Exception as e:
             print ('There is an issue with the prepare function', e)
@@ -212,10 +210,10 @@ driver.maximize_window()
 
 #enter('cciephantom@gmail.com','/html/body/div[2]/div[2]/div/div/div/div[3]/form/div[2]/div[1]/input')
 #enter('Ideraoluwa@01','/html/body/div[2]/div[2]/div/div/div/div[3]/form/div[2]/div[2]/input')
-#enter('tejiri.fai1@gmail.com','/html/body/div[2]/div[2]/div/div/div/div[3]/form/div[2]/div[1]/input')
-#enter('H27VGUJQ','/html/body/div[2]/div[2]/div/div/div/div[3]/form/div[2]/div[2]/input')
-enter('oghenetejiri_orukpe@yahoo.com','/html/body/div[2]/div[2]/div/div/div/div[3]/form/div[2]/div[1]/input')
-enter('rsBUlxEr','/html/body/div[2]/div[2]/div/div/div/div[3]/form/div[2]/div[2]/input')
+enter('tejiri.fai1@gmail.com','/html/body/div[2]/div[2]/div/div/div/div[3]/form/div[2]/div[1]/input')
+enter('H27VGUJQ','/html/body/div[2]/div[2]/div/div/div/div[3]/form/div[2]/div[2]/input')
+#enter('oghenetejiri_orukpe@yahoo.com','/html/body/div[2]/div[2]/div/div/div/div[3]/form/div[2]/div[1]/input')
+#enter('rsBUlxEr','/html/body/div[2]/div[2]/div/div/div/div[3]/form/div[2]/div[2]/input')
 
 
 WebDriverWait(driver, 10).until(EC.frame_to_be_available_and_switch_to_it((By.CSS_SELECTOR,"iframe[name^='a-'][src^='https://www.google.com/recaptcha/api2/anchor?']")))
@@ -255,7 +253,7 @@ initial_balance = trading_balance()
 session_balance = 0
 session_initial_balance = 0
 trading_percent = 1
-target = 10
+target = 20
 safe = 0
 otc = False
 ignore = False

@@ -1312,3 +1312,17 @@ eurgbp, 1
 eurgbp, 1
 gbpusd, 1
 usdchf, 
+eurgbp, 
+audusd, 1
+usdchf, 0
+usdchf, 
+audusd, 
+usdjpy, eurusd, audusd, 
+eurgbp, gbpusd, 1
+eurusd, audusd, 1
+gbpusd, audusd, usdchf, 
+usdjpy, audusd, 
+eurgbp, eurgbp, eurusd, usdjpy, usdchf, usdchf, 
+usdchf, 
+eurgbp, 1
+eurusd, 0

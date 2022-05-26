@@ -1,7 +1,6 @@
 import configparser
-from curses.ascii import ESC
+#from curses.ascii import ESC
 from logging import exception
-from select import select
 from wsgiref.simple_server import WSGIRequestHandler
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -142,12 +141,12 @@ def prepare(instrument):
 def pocket_option_trader(action, duration):
     try:
         #Set Expiration
-        set_minute_timer(duration)
-        if action.lower() == 'buy':
+        #set_minute_timer(duration)
+        if action.lower() == 'buy' or action.lower() == 'call':
             print ('Its a CALL!!!!!!!')
             a = ActionChains(driver)
             a.key_down(Keys.SHIFT).send_keys('W').perform()
-        elif action.lower() == 'sell':
+        elif action.lower() == 'sell' or action.lower() == 'put':
             print ('Its a PUT!!!!!!!')
             a = ActionChains(driver)
             a.key_down(Keys.SHIFT).send_keys('S').perform()
@@ -206,7 +205,7 @@ currency = ''
 trade_count = 0
 session_trade_count = 20
 loss_count = 0
-payout_threshold = 69
+payout_threshold = 49
 session_balance = 0
 session_initial_balance = 0
 trading_percent = 1
@@ -214,6 +213,7 @@ target = 10
 safe = 0
 otc = False
 ignore = False
+current_trade = []
 
 
 ## Open Pocket Options
@@ -269,7 +269,7 @@ driver.switch_to.window(driver.window_handles[1])
 
 driver.get(blw)
 
-enter('cciephantom@gmail.com','//*[@id="user_login"]')
+enter('cciephantom','//*[@id="user_login"]')
 enter('Ideraoluwa@01','//*[@id="user_pass"]')
 #enter('tejiri.fai1@gmail.com','/html/body/div[2]/div[2]/div/div/div/div[3]/form/div[2]/div[1]/input')
 #enter('H27VGUJQ','/html/body/div[2]/div[2]/div/div/div/div[3]/form/div[2]/div[2]/input')
@@ -292,29 +292,38 @@ driver.get(five_mins_room)
 #closed_signals_list = driver.find_element(By.XPATH, closed_signals_path)
 #print(closed_signals_list.text)
 open_signals_path = '//*[@id="signals-layout"]/ul[1]' #//*[@id="signals-layout"]/ul[1]/p
+
 while True:
     try:
         time.sleep(10)
         open_signal = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH,open_signals_path)))
         print(open_signal.text)
-        print (open_signal.text.lower().split())
         if 'trade' in open_signal.text.lower():
             print (open_signal.text.lower().split())
-            print (open_signal.text.lower().split('\n'))
-            signal_list = open_signal.text.lower().split('\n')
-            currency = signal_list[1][:-1]
-            action = signal_list[3][:-1]
-            duration = signal_list[4][:1]
-            driver.switch_to.window(driver.window_handles[0])
-            prepare(currency)
-            pocket_option_trader(action, duration)
-            driver.switch_to.window(driver.window_handles[1])
+            signal_list = open_signal.text.lower().split()
+            #signal_list = ['harry', 'audnzd', 'put', '5', 'minute', 'trade']
+            currency = signal_list[1]
+            action = signal_list[2]
+            duration = 5
+            time_left = signal_list[-1]
+            if signal_list[:-1] == current_trade:
+                print ('Trade Already Under Way...')
+                continue
+            else:
+                driver.switch_to.window(driver.window_handles[0])
+                prepare(currency)
+                pocket_option_trader(action, duration)
+                current_trade = signal_list[:-1]
+                time.sleep(int(duration)*60)
+                driver.switch_to.window(driver.window_handles[1])
+                driver.refresh()
+
         else:
             time.sleep(10)
-            continue
+#            continue
 
     except Exception as e:
         print(e)
 
 
-    driver.switch_to.window(driver.window_handles[0])
+    driver.switch_to.window(driver.window_handles[1])
