@@ -254,7 +254,12 @@ safe = True
 martingale_multiple = False
 martingale_multiple = 2
 trading_percent = 2
-initial_balance = trading_balance()
+while True:
+    initial_balance = trading_balance()
+    if initial_balance == 0:
+        continue
+    else:
+        break
 print (initial_balance)
 trade_amount = int(0.02 * initial_balance)
 #Convert Trade Amount from Digit to 4-Character String

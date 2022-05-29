@@ -58,6 +58,7 @@ while True:
         time.sleep(600)
         continue
     else:
+        print(check.text, ',Time to claim points...')
         clicker('/html/body/div[1]/div[1]/div[1]/div[1]/div[2]/div/div/div[2]/div/div[2]/div[1]/div[1]/div/div/div[2]/button')
         time.sleep(86400)
 

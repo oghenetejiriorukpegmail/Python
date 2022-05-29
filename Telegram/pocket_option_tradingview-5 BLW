@@ -76,6 +76,7 @@ def set_minute_timer(time):
 def set_trade_amount_percent():
     amount = trading_balance()*trading_percent/100
     amount = f'{amount:04}'
+    print (amount)
     try:
         print (amount)
         WebDriverWait(driver, 1).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="put-call-buttons-chart-1"]/div/div[1]/div[2]/div[2]/div[1]/div/input'))).click()
@@ -93,7 +94,6 @@ def compare_payouts(currency_list):
 #        payout_value_path = '//*[@id="put-call-buttons-chart-1"]/div/div[2]/div[1]/div[1]/div[2]/div/div[1]/span'
         for i in currency_list:
             prepare(i)
-            time.sleep(1)
             payout_list.append(float(driver.find_element(By.XPATH, payout_path).text[1:-1]))
         choice = currency_list[(payout_list.index(max(payout_list)))]
         print (choice)
@@ -126,34 +126,36 @@ def prepare(instrument):
             clicker('//*[@id="modal-root"]/div[2]/div/div/div[1]/div/div[1]/a[1]/span[2]')
             enter(instrument,'//*[@id="modal-root"]/div[2]/div/div/div[2]/div[1]/div[1]/input')
             try:
-                WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="modal-root"]/div[2]/div/div/div[2]/div[2]/div/div/div[1]/ul/li/a/span[3]'))).click()
+                WebDriverWait(driver, 1).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="modal-root"]/div[2]/div/div/div[2]/div[2]/div/div/div[1]/ul/li/a/span[3]'))).click()
             except:
                 ignore = True
                 print ('Ignoring due to instrument unavailability')
             ActionChains(driver).send_keys(Keys.ESCAPE).perform()
             #reset_timer()
-            set_trade_amount_percent()
-            check_payout()
+#            set_trade_amount_percent()
+#            check_payout()
         except Exception as e:
             print ('There is an issue with the prepare function', e)
     
 
 def pocket_option_trader(action, duration):
-    try:
-        #Set Expiration
-        #set_minute_timer(duration)
-        if action.lower() == 'buy' or action.lower() == 'call':
-            print ('Its a CALL!!!!!!!')
-            a = ActionChains(driver)
-            a.key_down(Keys.SHIFT).send_keys('W').perform()
-        elif action.lower() == 'sell' or action.lower() == 'put':
-            print ('Its a PUT!!!!!!!')
-            a = ActionChains(driver)
-            a.key_down(Keys.SHIFT).send_keys('S').perform()
-        return
-        
-    except Exception as e:
-        print ('error in pocket_option_trader', e)
+    if ignore == False:
+        try:
+            #Set Expiration
+            #reset_timer()
+            #set_minute_timer(duration)
+            if action.lower() == 'buy' or action.lower() == 'call':
+                print ('Its a CALL!!!!!!!')
+                a = ActionChains(driver)
+                a.key_down(Keys.SHIFT).send_keys('W').perform()
+            elif action.lower() == 'sell' or action.lower() == 'put':
+                print ('Its a PUT!!!!!!!')
+                a = ActionChains(driver)
+                a.key_down(Keys.SHIFT).send_keys('S').perform()
+            return
+            
+        except Exception as e:
+            print ('error in pocket_option_trader', e)
 
 
 def trading_balance():
@@ -205,11 +207,11 @@ currency = ''
 trade_count = 0
 session_trade_count = 20
 loss_count = 0
-payout_threshold = 49
+payout_threshold = 69
 session_balance = 0
 session_initial_balance = 0
-trading_percent = 1
-target = 10
+trading_percent = 5
+target = 100
 safe = 0
 otc = False
 ignore = False
@@ -224,21 +226,18 @@ driver.maximize_window()
 
 driver.get(pocket_options)
 
-#enter('cciephantom@gmail.com','/html/body/div[2]/div[2]/div/div/div/div[3]/form/div[2]/div[1]/input')
-#enter('Ideraoluwa@01','/html/body/div[2]/div[2]/div/div/div/div[3]/form/div[2]/div[2]/input')
+enter('cciephantom@gmail.com','/html/body/div[2]/div[2]/div/div/div/div[3]/form/div[2]/div[1]/input')
+enter('Ideraoluwa@01','/html/body/div[2]/div[2]/div/div/div/div[3]/form/div[2]/div[2]/input')
 #enter('tejiri.fai1@gmail.com','/html/body/div[2]/div[2]/div/div/div/div[3]/form/div[2]/div[1]/input')
 #enter('H27VGUJQ','/html/body/div[2]/div[2]/div/div/div/div[3]/form/div[2]/div[2]/input')
-enter('oghenetejiri_orukpe@yahoo.com','/html/body/div[2]/div[2]/div/div/div/div[3]/form/div[2]/div[1]/input')
-enter('rsBUlxEr','/html/body/div[2]/div[2]/div/div/div/div[3]/form/div[2]/div[2]/input')
+#enter('oghenetejiri_orukpe@yahoo.com','/html/body/div[2]/div[2]/div/div/div/div[3]/form/div[2]/div[1]/input')
+#enter('rsBUlxEr','/html/body/div[2]/div[2]/div/div/div/div[3]/form/div[2]/div[2]/input')
 
 WebDriverWait(driver, 10).until(EC.frame_to_be_available_and_switch_to_it((By.CSS_SELECTOR,"iframe[name^='a-'][src^='https://www.google.com/recaptcha/api2/anchor?']")))
 WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, "//span[@id='recaptcha-anchor']"))).click()
 
 print('Captcha Button Done!!!')
-time.sleep(10)
-print('Time to Login ....')
-
-time.sleep(10)
+press_key = input("Press Any Key To Continue...")
 
 while True:
     initial_balance = trading_balance()
@@ -281,11 +280,9 @@ WebDriverWait(driver, 10).until(EC.frame_to_be_available_and_switch_to_it((By.CS
 WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, "//span[@id='recaptcha-anchor']"))).click()
 
 print('Captcha Button Done!!!')
-time.sleep(5)
-#WebDriverWait(driver, 10).until(EC.frame_to_be_available_and_switch_to_it((By.CLASS_NAME, 'class="elementor-widget-container"')))
-#WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, '/html/body/div[2]/div/div/section/div[2]/div/div/div/div/div[2]/div/div/div/form/p[4]/input[1]'))).click()
+press_key = input("Press Any Key To Continue...")
 
-time.sleep(5)
+print ('Switching to the 5mins room...')
 driver.get(five_mins_room)
 
 #closed_signals_path = '//*[@id="blw_closed_signals"]'
@@ -297,7 +294,7 @@ while True:
     try:
         time.sleep(10)
         open_signal = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH,open_signals_path)))
-        print(open_signal.text)
+        #print(open_signal.text)
         if 'trade' in open_signal.text.lower():
             print (open_signal.text.lower().split())
             signal_list = open_signal.text.lower().split()
@@ -311,9 +308,12 @@ while True:
                 continue
             else:
                 driver.switch_to.window(driver.window_handles[0])
+                print (currency, action, duration)
                 prepare(currency)
-                pocket_option_trader(action, duration)
-                current_trade = signal_list[:-1]
+                time.sleep(1)
+                if ignore == False:
+                    pocket_option_trader(action, duration)
+                    current_trade = signal_list[:-1]
                 time.sleep(int(duration)*60)
                 driver.switch_to.window(driver.window_handles[1])
                 driver.refresh()

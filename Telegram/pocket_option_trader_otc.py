@@ -1,7 +1,11 @@
+from cgitb import text
 import configparser
 from curses.ascii import ESC
 from locale import currency
 from logging import exception
+from msilib import type_key
+from multiprocessing.sharedctypes import Value
+from optparse import Values
 from pickle import FALSE
 from tkinter import E
 from tkinter.messagebox import NO
@@ -51,7 +55,6 @@ def change_to_fixed_expiration():
 def reset_timer():
     try:
         clicker('//*[@class="value__val"]')
-        time.sleep(1)
         WebDriverWait(driver,10).until(EC.element_to_be_clickable((By.XPATH, '//div[text()="M1"]'))).click()
 
     except Exception as e:
@@ -73,14 +76,40 @@ def set_trade_amount():
     amount = trading_balance()*trading_percent/100
     amount = f'{amount:04}'
     try:
-        print (amount)
-        WebDriverWait(driver, 1).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="put-call-buttons-chart-1"]/div/div[1]/div[2]/div[2]/div[1]/div/input'))).click()
-        ActionChains(driver).send_keys(Keys.BACKSPACE).send_keys(Keys.BACKSPACE).send_keys(Keys.BACKSPACE).send_keys(Keys.BACKSPACE).perform()
-        ActionChains(driver).send_keys(amount[0]).send_keys(amount[1]).send_keys(amount[2]).send_keys(amount[3]).perform()   
+        #print (amount)
+        check = driver.find_element(By.XPATH, '//*[@id="put-call-buttons-chart-1"]/div/div[1]/div[2]/div[2]/div[1]/div/input')
+        if '%' in check.get_attribute('value'):
+            driver.find_element(By.XPATH, '//*[@id="put-call-buttons-chart-1"]/div/div[1]/div[2]/div[2]/div[2]/div/a[2]').click()
+        driver.execute_script("arguments[0].type='text';",check)
+        driver.execute_script("arguments[0].value='';",check)
+        check.send_keys(amount)
+#        ActionChains(driver).send_keys(Keys.BACKSPACE).send_keys(Keys.BACKSPACE).send_keys(Keys.BACKSPACE).send_keys(Keys.BACKSPACE).perform()
+#        ActionChains(driver).send_keys(amount[0]).send_keys(amount[1]).send_keys(amount[2]).send_keys(amount[3]).perform()   
         clicker('//*[@id="chart-1"]/canvas')    
         
     except Exception as e:
         print ('error in set trade amount', e)
+
+def set_trade_amount_percent():
+    global trading_percent
+    try:
+        while True:
+            check = driver.find_element(By.XPATH, '//*[@id="put-call-buttons-chart-1"]/div/div[1]/div[2]/div[2]/div[1]/div/input')
+            if '$' in check.get_attribute('value'):
+                driver.find_element(By.XPATH, '//*[@id="put-call-buttons-chart-1"]/div/div[1]/div[2]/div[2]/div[2]/div/a[2]').click()
+    #        trade_amount_path = '//div[text()="'+str(trading_percent)+'"]'
+    #        print(trade_amount_path)
+            driver.execute_script("arguments[0].type='text';",check)
+            driver.execute_script("arguments[0].value='';",check)
+            check.send_keys(str(trading_percent))
+            if check.get_attribute('value') == str(trading_percent)+'%':
+                break
+    
+        clicker('//*[@id="chart-1"]/canvas')    
+        
+    except Exception as e:
+        print ('error in set trade amount percent', e)
+
 
 def check_payout():
     global payout_path, payout_threshold, ignore
@@ -104,7 +133,7 @@ def prepare(instrument):
             clicker('//*[@id="modal-root"]/div[2]/div/div/div[1]/div/div[1]/a[1]/span[2]')
             enter(instrument,'//*[@id="modal-root"]/div[2]/div/div/div[2]/div[1]/div[1]/input')
             try:
-                WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="modal-root"]/div[2]/div/div/div[2]/div[2]/div/div/div[1]/ul/li/a/span[3]'))).click()
+                WebDriverWait(driver, 1).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="modal-root"]/div[2]/div/div/div[2]/div[2]/div/div/div[1]/ul/li/a/span[3]'))).click()
             except:
                 ignore = True
                 print ('Ignoring due to instrument unavailability')
@@ -119,9 +148,6 @@ def pocket_option_trader(action, duration, otc):
     try:
         #Set Expiration
         set_minute_timer(duration, otc)
-        #Input Trade Amount
-    #    WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="put-call-buttons-chart-1"]/div/div[1]/div[2]/div[2]/div[1]/div/input'))).click()
-    #    ActionChains(driver).send_keys(Keys.BACKSPACE).send_keys(Keys.BACKSPACE).send_keys(Keys.BACKSPACE).send_keys(Keys.BACKSPACE).send_keys(Keys.BACKSPACE).send_keys('10').perform()
         #Take a Trade
         check_payout()
         if ignore == False:
@@ -181,19 +207,16 @@ driver.get(pocket_options)
 
 #enter('tejiri.fai1@gmail.com','/html/body/div[2]/div[2]/div/div/div/div[3]/form/div[2]/div[1]/input')
 #enter('H27VGUJQ','/html/body/div[2]/div[2]/div/div/div/div[3]/form/div[2]/div[2]/input')
-enter('cciephantom@gmail.com','/html/body/div[2]/div[2]/div/div/div/div[3]/form/div[2]/div[1]/input')
-enter('Ideraoluwa@01','/html/body/div[2]/div[2]/div/div/div/div[3]/form/div[2]/div[2]/input')
-#enter('oghenetejiri_orukpe@yahoo.com','/html/body/div[2]/div[2]/div/div/div/div[3]/form/div[2]/div[1]/input')
-#enter('rsBUlxEr','/html/body/div[2]/div[2]/div/div/div/div[3]/form/div[2]/div[2]/input')
+#enter('cciephantom@gmail.com','/html/body/div[2]/div[2]/div/div/div/div[3]/form/div[2]/div[1]/input')
+#enter('Ideraoluwa@01','/html/body/div[2]/div[2]/div/div/div/div[3]/form/div[2]/div[2]/input')
+enter('oghenetejiri_orukpe@yahoo.com','/html/body/div[2]/div[2]/div/div/div/div[3]/form/div[2]/div[1]/input')
+enter('rsBUlxEr','/html/body/div[2]/div[2]/div/div/div/div[3]/form/div[2]/div[2]/input')
 
 WebDriverWait(driver, 10).until(EC.frame_to_be_available_and_switch_to_it((By.CSS_SELECTOR,"iframe[name^='a-'][src^='https://www.google.com/recaptcha/api2/anchor?']")))
 WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, "//span[@id='recaptcha-anchor']"))).click()
 
 print('Captcha Button Done!!!')
-time.sleep(15)
-print('Time to Login ....')
-time.sleep(5)
-
+press_key = input("Press Any Key To Continue...")
 print('Logging Into Telegram to Get Signals...')
 
 config = configparser.ConfigParser()
@@ -223,8 +246,9 @@ reset_timer()
 initial_balance = trading_balance()
 print (initial_balance)
 target_balance = float(input('Target for this session:'))
-set_trade_amount()
+set_trade_amount_percent()
 payout_threshold = 70
+martingale = False
 
 
 client = TelegramClient('binarex_otc_robot', api_id, api_hash)
@@ -233,7 +257,6 @@ async def my_event_handler(event):
     global ignore, cool_off, otc, currency, action, duration, safe
     with open('results_new.csv', 'a') as f, open('results_real.csv', 'a') as r:
         if ('1518994770' in str(event.peer_id)) or ('1366707521' in str(event.peer_id)):
-#        if "1366707521" in str(event.peer_id):
     #        print (event.text)
             event_list = event.text.strip().lower().split()
             print(event_list)
@@ -244,9 +267,9 @@ async def my_event_handler(event):
                 if 'otc' in event.text.lower():
                     otc = True
                 prepare(currency)
-                with open('currency.txt', 'w') as c:
-                    c.write(str(trading_balance()))  
-                r.write(currency+', ')                  
+#                with open('currency.txt', 'w') as c:
+#                    c.write(str(trading_balance()))  
+#                r.write(currency+', ')                  
             elif ('finished' in event.text.lower()):
                 time.sleep(5)
                 with open('currency.txt', 'r') as c:
